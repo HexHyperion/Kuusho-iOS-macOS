@@ -6,14 +6,65 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		ADB3518F2EF4B7960028E008 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADB3513E2EF4110B0028E008 /* WidgetKit.framework */; };
+		ADB351902EF4B7960028E008 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADB351402EF4110B0028E008 /* SwiftUI.framework */; };
+		ADB3519B2EF4B7980028E008 /* HayaiKuushoExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = ADB3518E2EF4B7960028E008 /* HayaiKuushoExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		ADB351992EF4B7980028E008 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADAFA31D2EF2DCE10040ABB4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ADB3518D2EF4B7960028E008;
+			remoteInfo = HayaiKuushoExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		ADB3514F2EF4110C0028E008 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				ADB3519B2EF4B7980028E008 /* HayaiKuushoExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		ADAFA3252EF2DCE10040ABB4 /* Kuusho.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kuusho.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADB3513E2EF4110B0028E008 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = /System/Library/Frameworks/WidgetKit.framework; sourceTree = "<absolute>"; };
+		ADB351402EF4110B0028E008 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = /System/Library/Frameworks/SwiftUI.framework; sourceTree = "<absolute>"; };
+		ADB3518E2EF4B7960028E008 /* HayaiKuushoExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = HayaiKuushoExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		ADB3519C2EF4B7980028E008 /* Exceptions for "HayaiKuusho" folder in "HayaiKuushoExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = ADB3518D2EF4B7960028E008 /* HayaiKuushoExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		ADAFA3272EF2DCE10040ABB4 /* Kuusho */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Kuusho;
+			sourceTree = "<group>";
+		};
+		ADB351912EF4B7960028E008 /* HayaiKuusho */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				ADB3519C2EF4B7980028E008 /* Exceptions for "HayaiKuusho" folder in "HayaiKuushoExtension" target */,
+			);
+			path = HayaiKuusho;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -26,6 +77,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		ADB3518B2EF4B7960028E008 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADB351902EF4B7960028E008 /* SwiftUI.framework in Frameworks */,
+				ADB3518F2EF4B7960028E008 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -33,6 +93,8 @@
 			isa = PBXGroup;
 			children = (
 				ADAFA3272EF2DCE10040ABB4 /* Kuusho */,
+				ADB351912EF4B7960028E008 /* HayaiKuusho */,
+				ADB3513D2EF4110B0028E008 /* Frameworks */,
 				ADAFA3262EF2DCE10040ABB4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,8 +103,18 @@
 			isa = PBXGroup;
 			children = (
 				ADAFA3252EF2DCE10040ABB4 /* Kuusho.app */,
+				ADB3518E2EF4B7960028E008 /* HayaiKuushoExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		ADB3513D2EF4110B0028E008 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				ADB3513E2EF4110B0028E008 /* WidgetKit.framework */,
+				ADB351402EF4110B0028E008 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -55,10 +127,12 @@
 				ADAFA3212EF2DCE10040ABB4 /* Sources */,
 				ADAFA3222EF2DCE10040ABB4 /* Frameworks */,
 				ADAFA3232EF2DCE10040ABB4 /* Resources */,
+				ADB3514F2EF4110C0028E008 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				ADB3519A2EF4B7980028E008 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				ADAFA3272EF2DCE10040ABB4 /* Kuusho */,
@@ -69,6 +143,28 @@
 			productName = Kuusho;
 			productReference = ADAFA3252EF2DCE10040ABB4 /* Kuusho.app */;
 			productType = "com.apple.product-type.application";
+		};
+		ADB3518D2EF4B7960028E008 /* HayaiKuushoExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ADB3519D2EF4B7980028E008 /* Build configuration list for PBXNativeTarget "HayaiKuushoExtension" */;
+			buildPhases = (
+				ADB3518A2EF4B7960028E008 /* Sources */,
+				ADB3518B2EF4B7960028E008 /* Frameworks */,
+				ADB3518C2EF4B7960028E008 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				ADB351912EF4B7960028E008 /* HayaiKuusho */,
+			);
+			name = HayaiKuushoExtension;
+			packageProductDependencies = (
+			);
+			productName = HayaiKuushoExtension;
+			productReference = ADB3518E2EF4B7960028E008 /* HayaiKuushoExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -81,6 +177,9 @@
 				LastUpgradeCheck = 2620;
 				TargetAttributes = {
 					ADAFA3242EF2DCE10040ABB4 = {
+						CreatedOnToolsVersion = 26.2;
+					};
+					ADB3518D2EF4B7960028E008 = {
 						CreatedOnToolsVersion = 26.2;
 					};
 				};
@@ -100,12 +199,20 @@
 			projectRoot = "";
 			targets = (
 				ADAFA3242EF2DCE10040ABB4 /* Kuusho */,
+				ADB3518D2EF4B7960028E008 /* HayaiKuushoExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		ADAFA3232EF2DCE10040ABB4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADB3518C2EF4B7960028E008 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -122,7 +229,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		ADB3518A2EF4B7960028E008 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		ADB3519A2EF4B7980028E008 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = ADB3518D2EF4B7960028E008 /* HayaiKuushoExtension */;
+			targetProxy = ADB351992EF4B7980028E008 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		ADAFA32E2EF2DCE20040ABB4 /* Debug */ = {
@@ -329,6 +451,90 @@
 			};
 			name = Release;
 		};
+		ADB3519E2EF4B7980028E008 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = A8PKS95HUG;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HayaiKuusho/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = HayaiKuusho;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = hexhyperion.Kuusho.HayaiKuusho;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Debug;
+		};
+		ADB3519F2EF4B7980028E008 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = A8PKS95HUG;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HayaiKuusho/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = HayaiKuusho;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = hexhyperion.Kuusho.HayaiKuusho;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -346,6 +552,15 @@
 			buildConfigurations = (
 				ADAFA3312EF2DCE20040ABB4 /* Debug */,
 				ADAFA3322EF2DCE20040ABB4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ADB3519D2EF4B7980028E008 /* Build configuration list for PBXNativeTarget "HayaiKuushoExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ADB3519E2EF4B7980028E008 /* Debug */,
+				ADB3519F2EF4B7980028E008 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
