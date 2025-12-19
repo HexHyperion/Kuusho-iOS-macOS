@@ -9,6 +9,12 @@ import WidgetKit
 import SwiftUI
 import AppIntents
 
+let appGroupID = "group.hexhyperion.Kuusho"
+
+extension UserDefaults {
+    static let appGroup = UserDefaults(suiteName: appGroupID)!
+}
+
 struct CopyKuusho: AppIntent {
     static var title: LocalizedStringResource = "Copy Kuusho"
     static var description = IntentDescription("Copies the LTR mark to the user's clipboard.")
@@ -22,33 +28,31 @@ struct CopyKuusho: AppIntent {
             let pasteboard = UIPasteboard.general
             pasteboard.string = "Kuuusho test iOS"
         #endif
+        
+        
+        UserDefaults.appGroup.set(!UserDefaults.appGroup.bool(forKey: "copied"), forKey: "copied")
+        WidgetCenter.shared.reloadAllTimelines()
+        
         return .result()
     }
 }
 
 struct Provider: TimelineProvider {
-    func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date())
+    func placeholder(in context: Context) -> KuushoEntry {
+        KuushoEntry(date: .now, copied: false)
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date())
-        completion(entry)
+    func getSnapshot(in context: Context, completion: @escaping (KuushoEntry) -> ()) {
+        completion(makeEntry())
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        var entries: [SimpleEntry] = []
-
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate)
-            entries.append(entry)
-        }
-
-        let timeline = Timeline(entries: entries, policy: .atEnd)
-        completion(timeline)
+        completion(Timeline(entries: [makeEntry()], policy: .never))
+    }
+    
+    private func makeEntry() -> KuushoEntry {
+        let copied = UserDefaults.appGroup.bool(forKey: "copied")
+        return KuushoEntry(date: Date(), copied: copied)
     }
 
 //    func relevances() async -> WidgetRelevances<Void> {
@@ -56,8 +60,9 @@ struct Provider: TimelineProvider {
 //    }
 }
 
-struct SimpleEntry: TimelineEntry {
+struct KuushoEntry: TimelineEntry {
     let date: Date
+    let copied: Bool
 }
 
 struct HayaiKuushoEntryView : View {
@@ -65,9 +70,14 @@ struct HayaiKuushoEntryView : View {
 
     var body: some View {
         VStack {
-            Button(intent: CopyKuusho()) {
-                Text("Copy")
-            }
+            Button(intent: CopyKuusho(), label: {
+                Text(entry.copied ? "🎉 Copied!" : "🪄 Kuusho")
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .multilineTextAlignment(.center)
+                    .contentTransition(.opacity)
+            })
+            .buttonBorderShape(ButtonBorderShape.roundedRectangle)
+            .tint(entry.copied ? .green : .blue)
         }
     }
 }
@@ -79,20 +89,20 @@ struct HayaiKuusho: Widget {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             if #available(macOS 14.0, iOS 17.0, *) {
                 HayaiKuushoEntryView(entry: entry)
-                    .containerBackground(.fill.tertiary, for: .widget)
+                    .containerBackground(.clear, for: .widget)
             } else {
                 HayaiKuushoEntryView(entry: entry)
                     .padding()
                     .background()
             }
         }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+        .configurationDisplayName("Hayai Kuusho")
+        .description("A widget quickly providing you the magic \"void\" symbol!")
     }
 }
 
 #Preview(as: .systemSmall) {
     HayaiKuusho()
 } timeline: {
-    SimpleEntry(date: .now)
+    KuushoEntry(date: .now, copied: true)
 }
