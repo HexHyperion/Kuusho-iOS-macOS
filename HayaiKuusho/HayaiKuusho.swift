@@ -65,19 +65,29 @@ struct KuushoEntry: TimelineEntry {
     let copied: Bool
 }
 
+struct NoFeedbackButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .animation(.bouncy, value: configuration.isPressed)
+            .opacity(1)
+    }
+}
+
 struct HayaiKuushoEntryView : View {
     var entry: Provider.Entry
 
     var body: some View {
         VStack {
             Button(intent: CopyKuusho(), label: {
-                Text(entry.copied ? "🎉 Copied!" : "🪄 Kuusho")
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .multilineTextAlignment(.center)
-                    .contentTransition(.opacity)
+                Text(entry.copied ? ":D" : ":)")
+                    .font(.custom("SFMono-Regular", size: 110))
+                    .fontDesign(.monospaced)
+                    .foregroundStyle(entry.copied ? .green : .primary)
+                    .contentTransition(.identity)
+                    .kerning(-10)
+                    .offset(x: -10, y: 0)
             })
-            .buttonBorderShape(ButtonBorderShape.roundedRectangle)
-            .tint(entry.copied ? .green : .blue)
+            .buttonStyle(NoFeedbackButtonStyle())
         }
     }
 }
@@ -92,7 +102,6 @@ struct HayaiKuusho: Widget {
                     .containerBackground(.clear, for: .widget)
             } else {
                 HayaiKuushoEntryView(entry: entry)
-                    .padding()
                     .background()
             }
         }
@@ -104,5 +113,5 @@ struct HayaiKuusho: Widget {
 #Preview(as: .systemSmall) {
     HayaiKuusho()
 } timeline: {
-    KuushoEntry(date: .now, copied: true)
+    KuushoEntry(date: .now, copied: false)
 }
