@@ -34,11 +34,7 @@ struct CopyKuusho: AppIntent {
         #else
             UIPasteboard.general.string = "Kuuusho test iOS"
         #endif
-        
-        UserDefaults.appGroup.set(true, forKey: "copied")
-        UserDefaults.appGroup.set(selectRandomFace(), forKey: "face")
-        WidgetCenter.shared.reloadAllTimelines()
-        
+
         UserDefaults.appGroup.set(Date(), forKey: lastCopyKey)
         UserDefaults.appGroup.set(selectRandomFace(), forKey: faceKey)
 
