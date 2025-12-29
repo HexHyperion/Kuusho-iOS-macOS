@@ -11,7 +11,7 @@ import AppIntents
 
 let appGroupID = "group.hexhyperion.Kuusho"
 
-let faces = ["W", "X", "P", "O", "C", "S", "V", "3", ")", "(", "/", ">"]
+let faces = ["W", "X", "P", "O", "C", "S", "V", "3", "L", ")", "(", "/", ">", "*"]
 
 func selectRandomFace() -> String {
     ":" + faces.randomElement()!
@@ -35,8 +35,7 @@ struct CopyKuusho: AppIntent {
             pasteboard.string = "Kuuusho test iOS"
         #endif
         
-        
-        UserDefaults.appGroup.set(!UserDefaults.appGroup.bool(forKey: "copied"), forKey: "copied")
+        UserDefaults.appGroup.set(true, forKey: "copied")
         UserDefaults.appGroup.set(selectRandomFace(), forKey: "face")
         WidgetCenter.shared.reloadAllTimelines()
         
@@ -45,22 +44,27 @@ struct CopyKuusho: AppIntent {
 }
 
 struct Provider: TimelineProvider {
+    let copied = UserDefaults.appGroup.bool(forKey: "copied")
+    let face = UserDefaults.appGroup.string(forKey: "face") ?? ":)"
+    
     func placeholder(in context: Context) -> KuushoEntry {
-        KuushoEntry(date: .now, copied: false, face: ":)")
+        KuushoEntry(date: .now, copied: false, face: face)
     }
 
     func getSnapshot(in context: Context, completion: @escaping (KuushoEntry) -> ()) {
-        completion(makeEntry())
+        completion(KuushoEntry(date: .now, copied: copied, face: face))
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        completion(Timeline(entries: [makeEntry()], policy: .never))
-    }
-    
-    private func makeEntry() -> KuushoEntry {
         let copied = UserDefaults.appGroup.bool(forKey: "copied")
         let face = UserDefaults.appGroup.string(forKey: "face")!
-        return KuushoEntry(date: Date(), copied: copied, face: face)
+        
+        if (copied) {
+            completion(Timeline(entries: [KuushoEntry(date: Date(), copied: true, face: face), KuushoEntry(date: Date(timeIntervalSinceNow: 1), copied: false, face: face)], policy: .never))
+        }
+        else {
+            completion(Timeline(entries: [KuushoEntry(date: Date(), copied: false, face: face)], policy: .never))
+        }
     }
 
 //    func relevances() async -> WidgetRelevances<Void> {
@@ -77,7 +81,7 @@ struct KuushoEntry: TimelineEntry {
 struct NoFeedbackButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .animation(.bouncy, value: configuration.isPressed)
+            .animation(nil, value: configuration.isPressed)
             .opacity(1)
     }
 }
@@ -116,6 +120,7 @@ struct HayaiKuusho: Widget {
         }
         .configurationDisplayName("Hayai Kuusho")
         .description("A widget quickly providing you the magic \"void\" symbol!")
+        .supportedFamilies([.systemSmall])
     }
 }
 
