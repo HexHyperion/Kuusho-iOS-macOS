@@ -10,8 +10,10 @@ import SwiftUI
 import AppIntents
 
 let appGroupID = "group.hexhyperion.Kuusho"
+let lastCopyKey = "lastCopyDate"
+let faceKey = "face"
 
-let faces = ["W", "X", "P", "O", "C", "S", "V", "3", ")", "(", "/", ">"]
+let faces = ["W", "X", "P", "O", "C", "S", "V", "3", "L", ")", "(", "/", ">", "*"]
 
 func selectRandomFace() -> String {
     ":" + faces.randomElement()!
@@ -23,83 +25,94 @@ extension UserDefaults {
 
 struct CopyKuusho: AppIntent {
     static var title: LocalizedStringResource = "Copy Kuusho"
-    static var description = IntentDescription("Copies the LTR mark to the user's clipboard.")
-    
+    static var description = IntentDescription("Copies the LTR mark to clipboard.")
+
     func perform() async throws -> some IntentResult {
         #if os(macOS)
-            let pasteboard = NSPasteboard.general
-            pasteboard.clearContents()
-            pasteboard.setString("Kuuuuusho test", forType: .string)
-        #elseif os(iOS)
-            let pasteboard = UIPasteboard.general
-            pasteboard.string = "Kuuusho test iOS"
+            NSPasteboard.general.clearContents()
+            NSPasteboard.general.setString("Kuuuuusho test", forType: .string)
+        #else
+            UIPasteboard.general.string = "Kuuusho test iOS"
         #endif
         
-        
-        UserDefaults.appGroup.set(!UserDefaults.appGroup.bool(forKey: "copied"), forKey: "copied")
-        UserDefaults.appGroup.set(selectRandomFace(), forKey: "face")
+        UserDefaults.appGroup.set(Date(), forKey: lastCopyKey)
+        UserDefaults.appGroup.set(selectRandomFace(), forKey: faceKey)
+
         WidgetCenter.shared.reloadAllTimelines()
-        
         return .result()
     }
 }
 
+
 struct Provider: TimelineProvider {
+    let copied = UserDefaults.appGroup.bool(forKey: "copied")
+    let face = UserDefaults.appGroup.string(forKey: "face") ?? ":)"
+    
     func placeholder(in context: Context) -> KuushoEntry {
-        KuushoEntry(date: .now, copied: false, face: ":)")
+        KuushoEntry(date: .now, face: ":)")
     }
 
     func getSnapshot(in context: Context, completion: @escaping (KuushoEntry) -> ()) {
-        completion(makeEntry())
+        completion(currentEntry())
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        completion(Timeline(entries: [makeEntry()], policy: .never))
-    }
-    
-    private func makeEntry() -> KuushoEntry {
-        let copied = UserDefaults.appGroup.bool(forKey: "copied")
-        let face = UserDefaults.appGroup.string(forKey: "face")!
-        return KuushoEntry(date: Date(), copied: copied, face: face)
+    func getTimeline(in context: Context, completion: @escaping (Timeline<KuushoEntry>) -> ()) {
+        let now = Date()
+        let entryNow = currentEntry(at: now)
+
+        if let lastCopy = UserDefaults.appGroup.object(forKey: lastCopyKey) as? Date, now.timeIntervalSince(lastCopy) < 1 {
+            let end = lastCopy.addingTimeInterval(1)
+            let entryEnd = currentEntry(at: end)
+            
+            completion(Timeline(entries: [entryNow, entryEnd], policy: .atEnd))
+        } else {
+            completion(Timeline(entries: [entryNow], policy: .never))
+        }
     }
 
-//    func relevances() async -> WidgetRelevances<Void> {
-//        // Generate a list containing the contexts this widget is relevant in.
-//    }
+    private func currentEntry(at date: Date = .now) -> KuushoEntry {
+        let face = UserDefaults.appGroup.string(forKey: faceKey) ?? ":)"
+        return KuushoEntry(date: date, face: face)
+    }
 }
 
 struct KuushoEntry: TimelineEntry {
     let date: Date
-    let copied: Bool
     let face: String
+
+    var isRecentlyCopied: Bool {
+        guard let lastCopy = UserDefaults.appGroup.object(forKey: lastCopyKey) as? Date else {
+            return false
+        }
+        return date.timeIntervalSince(lastCopy) < 1
+    }
 }
 
 struct NoFeedbackButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .animation(.bouncy, value: configuration.isPressed)
+            .animation(nil, value: configuration.isPressed)
             .opacity(1)
     }
 }
 
-struct HayaiKuushoEntryView : View {
-    var entry: Provider.Entry
-
+struct HayaiKuushoEntryView: View {
+    var entry: KuushoEntry
+    
     var body: some View {
-        VStack {
-            Button(intent: CopyKuusho(), label: {
-                Text(entry.copied ? ":D" : entry.face)
-                    .font(.custom("SFMono-Regular", size: 110))
-                    .fontDesign(.monospaced)
-                    .foregroundStyle(entry.copied ? .green : .primary)
-                    .contentTransition(.identity)
-                    .kerning(-10)
-                    .offset(x: -10, y: 0)
-            })
-            .buttonStyle(NoFeedbackButtonStyle())
+        Button(intent: CopyKuusho()) {
+            Text(entry.isRecentlyCopied ? ":D" : entry.face)
+                .font(.custom("SFMono-Regular", size: 110))
+                .fontDesign(.monospaced)
+                .foregroundStyle(entry.isRecentlyCopied ? .green : .primary)
+                .kerning(-10)
+                .offset(x: -10)
+                .contentTransition(.identity)
         }
+        .buttonStyle(NoFeedbackButtonStyle())
     }
 }
+
 
 struct HayaiKuusho: Widget {
     let kind: String = "HayaiKuusho"
@@ -116,11 +129,12 @@ struct HayaiKuusho: Widget {
         }
         .configurationDisplayName("Hayai Kuusho")
         .description("A widget quickly providing you the magic \"void\" symbol!")
+        .supportedFamilies([.systemSmall])
     }
 }
 
 #Preview(as: .systemSmall) {
     HayaiKuusho()
 } timeline: {
-    KuushoEntry(date: .now, copied: false, face: ":)")
+    KuushoEntry(date: .now, face: ":)")
 }
