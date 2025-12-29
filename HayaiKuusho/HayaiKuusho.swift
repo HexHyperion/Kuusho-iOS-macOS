@@ -11,6 +11,12 @@ import AppIntents
 
 let appGroupID = "group.hexhyperion.Kuusho"
 
+let faces = ["W", "X", "P", "O", "C", "S", "V", "3", ")", "(", "/", ">"]
+
+func selectRandomFace() -> String {
+    ":" + faces.randomElement()!
+}
+
 extension UserDefaults {
     static let appGroup = UserDefaults(suiteName: appGroupID)!
 }
@@ -31,6 +37,7 @@ struct CopyKuusho: AppIntent {
         
         
         UserDefaults.appGroup.set(!UserDefaults.appGroup.bool(forKey: "copied"), forKey: "copied")
+        UserDefaults.appGroup.set(selectRandomFace(), forKey: "face")
         WidgetCenter.shared.reloadAllTimelines()
         
         return .result()
@@ -39,7 +46,7 @@ struct CopyKuusho: AppIntent {
 
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> KuushoEntry {
-        KuushoEntry(date: .now, copied: false)
+        KuushoEntry(date: .now, copied: false, face: ":)")
     }
 
     func getSnapshot(in context: Context, completion: @escaping (KuushoEntry) -> ()) {
@@ -52,7 +59,8 @@ struct Provider: TimelineProvider {
     
     private func makeEntry() -> KuushoEntry {
         let copied = UserDefaults.appGroup.bool(forKey: "copied")
-        return KuushoEntry(date: Date(), copied: copied)
+        let face = UserDefaults.appGroup.string(forKey: "face")!
+        return KuushoEntry(date: Date(), copied: copied, face: face)
     }
 
 //    func relevances() async -> WidgetRelevances<Void> {
@@ -63,6 +71,7 @@ struct Provider: TimelineProvider {
 struct KuushoEntry: TimelineEntry {
     let date: Date
     let copied: Bool
+    let face: String
 }
 
 struct NoFeedbackButtonStyle: ButtonStyle {
@@ -79,7 +88,7 @@ struct HayaiKuushoEntryView : View {
     var body: some View {
         VStack {
             Button(intent: CopyKuusho(), label: {
-                Text(entry.copied ? ":D" : ":)")
+                Text(entry.copied ? ":D" : entry.face)
                     .font(.custom("SFMono-Regular", size: 110))
                     .fontDesign(.monospaced)
                     .foregroundStyle(entry.copied ? .green : .primary)
@@ -113,5 +122,5 @@ struct HayaiKuusho: Widget {
 #Preview(as: .systemSmall) {
     HayaiKuusho()
 } timeline: {
-    KuushoEntry(date: .now, copied: false)
+    KuushoEntry(date: .now, copied: false, face: ":)")
 }
