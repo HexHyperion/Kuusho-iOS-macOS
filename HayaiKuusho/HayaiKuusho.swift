@@ -12,6 +12,7 @@ import AppIntents
 let appGroupID = "group.hexhyperion.Kuusho"
 let lastCopyKey = "lastCopyDate"
 let faceKey = "face"
+let copiedText = "\u{200E}"
 
 let faces = ["W", "X", "P", "O", "C", "S", "V", "3", "L", ")", "(", "/", ">", "*"]
 
@@ -30,9 +31,9 @@ struct CopyKuusho: AppIntent {
     func perform() async throws -> some IntentResult {
         #if os(macOS)
             NSPasteboard.general.clearContents()
-            NSPasteboard.general.setString("Kuuuuusho test", forType: .string)
+            NSPasteboard.general.setString(copiedText, forType: .string)
         #else
-            UIPasteboard.general.string = "Kuuusho test iOS"
+            UIPasteboard.general.string = copiedText
         #endif
 
         UserDefaults.appGroup.set(Date(), forKey: lastCopyKey)
