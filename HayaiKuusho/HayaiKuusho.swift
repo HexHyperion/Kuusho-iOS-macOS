@@ -46,9 +46,6 @@ struct CopyKuusho: AppIntent {
 
 
 struct Provider: TimelineProvider {
-    let copied = UserDefaults.appGroup.bool(forKey: "copied")
-    let face = UserDefaults.appGroup.string(forKey: "face") ?? ":)"
-    
     func placeholder(in context: Context) -> KuushoEntry {
         KuushoEntry(date: .now, face: ":)")
     }
@@ -72,7 +69,7 @@ struct Provider: TimelineProvider {
     }
 
     private func currentEntry(at date: Date = .now) -> KuushoEntry {
-        let face = UserDefaults.appGroup.string(forKey: faceKey) ?? ":)"
+        let face = UserDefaults.appGroup.string(forKey: faceKey)!
         return KuushoEntry(date: date, face: face)
     }
 }
@@ -132,10 +129,4 @@ struct HayaiKuusho: Widget {
         .description("A widget quickly providing you the magic \"void\" symbol!")
         .supportedFamilies([.systemSmall])
     }
-}
-
-#Preview(as: .systemSmall) {
-    HayaiKuusho()
-} timeline: {
-    KuushoEntry(date: .now, face: ":)")
 }

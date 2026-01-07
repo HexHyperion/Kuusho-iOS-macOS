@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="159"
+   height="136"
+   viewBox="0 0 159 136"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
+   sodipodi:docname="rysunek.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     inkscape:zoom="1.0533046"
+     inkscape:cx="220.25917"
+     inkscape:cy="179.43527"
+     inkscape:window-width="1512"
+     inkscape:window-height="949"
+     inkscape:window-x="0"
+     inkscape:window-y="33"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Warstwa 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="font-size:192px;font-family:'SF Mono';-inkscape-font-specification:'SF Mono, Normal'"
+       d="M 16.96875,63.84375 C 26.25,63.84375 33.9375,55.96875 33.9375,46.5 33.9375,37.03125 26.25,29.15625 16.96875,29.15625 7.6875,29.15625 0,37.03125 0,46.5 0,55.96875 7.6875,63.84375 16.96875,63.84375 Z m 0,72 c 9.28125,0 16.96875,-7.78125 16.96875,-17.34375 0,-9.46875 -7.6875,-17.25 -16.96875,-17.25 C 7.6875,101.25 0,109.03125 0,118.5 c 0,9.5625 7.6875,17.34375 16.96875,17.34375 z M 70.190788,0 v 135.28125 h 16.59375 v -48.5625 h 28.031252 c 26.4375,0 43.78125,-17.15625 43.78125,-43.3125 C 158.59704,17.15625 141.44079,0 115.19079,0 Z m 16.59375,14.71875 h 24.281252 c 19.6875,0 30.75,10.21875 30.75,28.6875 0,18.375 -11.0625,28.59375 -30.75,28.59375 H 86.784538 Z"
+       id="text1"
+       aria-label=":P" />
+  </g>
+</svg>
