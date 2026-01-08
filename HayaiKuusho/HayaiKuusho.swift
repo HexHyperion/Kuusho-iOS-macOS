@@ -126,7 +126,7 @@ struct HayaiKuusho: Widget {
             }
         }
         .configurationDisplayName("Hayai Kuusho")
-        .description("A widget quickly providing you the magic \"void\" symbol!")
+        .description("Quickly copy the magic \"void\" symbol (aka the LTR mark).")
         .supportedFamilies([.systemSmall])
     }
 }
