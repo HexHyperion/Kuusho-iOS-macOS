@@ -99,15 +99,19 @@ struct HayaiKuushoEntryView: View {
     
     var body: some View {
         Button(intent: CopyKuusho()) {
-            Text(entry.isRecentlyCopied ? ":D" : entry.face)
-                .font(.custom("SFMono-Regular", size: 110))
-                .fontDesign(.monospaced)
-                .foregroundStyle(entry.isRecentlyCopied ? .green : .primary)
-                .kerning(-10)
-                .offset(x: -10)
-                .contentTransition(.identity)
+            ZStack {
+                Text(entry.isRecentlyCopied ? ":D" : entry.face)
+                    .font(.custom("SFMono-Regular", size: 110))
+                    .fontDesign(.monospaced)
+                    .foregroundStyle(entry.isRecentlyCopied ? .green : .primary)
+                    .kerning(-10)
+                    .offset(x: -10)
+                    .contentTransition(.identity)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         }
         .buttonStyle(NoFeedbackButtonStyle())
+        .contentMargins(.zero)
     }
 }
 
@@ -128,5 +132,15 @@ struct HayaiKuusho: Widget {
         .configurationDisplayName("Hayai Kuusho")
         .description("Quickly copy the magic \"void\" symbol (aka the LTR mark).")
         .supportedFamilies([.systemSmall])
+        .contentMarginsDisabled()
     }
 }
+
+
+#Preview(as: .systemSmall, widget: {
+    HayaiKuusho()
+}, timeline: {
+    let date = Date()
+    KuushoEntry(date: date, face: ":P")
+    KuushoEntry(date: date, face: ":)")
+})
