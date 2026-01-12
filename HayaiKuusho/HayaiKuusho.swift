@@ -26,7 +26,7 @@ extension UserDefaults {
 
 struct CopyKuusho: AppIntent {
     static var title: LocalizedStringResource = "Copy Kuusho"
-    static var description = IntentDescription("Copies the LTR mark to clipboard.")
+    static var description = IntentDescription("Copy the LTR mark to clipboard.")
 
     func perform() async throws -> some IntentResult {
         #if os(macOS)
@@ -47,7 +47,7 @@ struct CopyKuusho: AppIntent {
 
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> KuushoEntry {
-        KuushoEntry(date: .now, face: ":)")
+        KuushoEntry(date: .now, face: ":P")
     }
 
     func getSnapshot(in context: Context, completion: @escaping (KuushoEntry) -> ()) {
@@ -55,6 +55,10 @@ struct Provider: TimelineProvider {
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<KuushoEntry>) -> ()) {
+        if UserDefaults.appGroup.string(forKey: faceKey) == nil {
+            UserDefaults.appGroup.set(selectRandomFace(), forKey: faceKey)
+        }
+        
         let now = Date()
         let entryNow = currentEntry(at: now)
 
@@ -69,7 +73,7 @@ struct Provider: TimelineProvider {
     }
 
     private func currentEntry(at date: Date = .now) -> KuushoEntry {
-        let face = UserDefaults.appGroup.string(forKey: faceKey)!
+        let face = UserDefaults.appGroup.string(forKey: faceKey) ?? ":P"
         return KuushoEntry(date: date, face: face)
     }
 }
@@ -130,7 +134,7 @@ struct HayaiKuusho: Widget {
             }
         }
         .configurationDisplayName("Hayai Kuusho")
-        .description("Quickly copy the magic \"void\" symbol (aka the LTR mark).")
+        .description("Quickly copy the magic \"void\" symbol (aka the LTR mark) to clipboard.")
         .supportedFamilies([.systemSmall])
         .contentMarginsDisabled()
     }
