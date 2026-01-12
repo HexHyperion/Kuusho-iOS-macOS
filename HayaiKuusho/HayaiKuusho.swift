@@ -9,42 +9,6 @@ import WidgetKit
 import SwiftUI
 import AppIntents
 
-let appGroupID = "group.hexhyperion.Kuusho"
-let lastCopyKey = "lastCopyDate"
-let faceKey = "face"
-let copiedText = "\u{200E}"
-
-let faces = ["W", "X", "P", "O", "C", "S", "V", "3", "L", ")", "(", "/", ">", "*"]
-
-func selectRandomFace() -> String {
-    ":" + faces.randomElement()!
-}
-
-extension UserDefaults {
-    static let appGroup = UserDefaults(suiteName: appGroupID)!
-}
-
-struct CopyKuusho: AppIntent {
-    static var title: LocalizedStringResource = "Copy Kuusho"
-    static var description = IntentDescription("Copy the LTR mark to clipboard.")
-
-    func perform() async throws -> some IntentResult {
-        #if os(macOS)
-            NSPasteboard.general.clearContents()
-            NSPasteboard.general.setString(copiedText, forType: .string)
-        #else
-            UIPasteboard.general.string = copiedText
-        #endif
-
-        UserDefaults.appGroup.set(Date(), forKey: lastCopyKey)
-        UserDefaults.appGroup.set(selectRandomFace(), forKey: faceKey)
-
-        WidgetCenter.shared.reloadAllTimelines()
-        return .result()
-    }
-}
-
-
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> KuushoEntry {
         KuushoEntry(date: .now, face: ":P")

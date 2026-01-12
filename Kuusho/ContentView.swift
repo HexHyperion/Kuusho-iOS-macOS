@@ -6,27 +6,20 @@
 //
 
 import SwiftUI
-
-func test() {
-    #if os(macOS)
-        let pasteboard = NSPasteboard.general
-        pasteboard.clearContents()
-        pasteboard.setString("Kuuuuusho test", forType: .string)
-    #elseif os(iOS)
-        let pasteboard = UIPasteboard.general
-        pasteboard.string = "Kuuusho test iOS"
-    #endif
-}
+import AppIntents
 
 struct ContentView: View {
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Button(action: test) {
-                Text("hejka")
+            Button(intent: CopyKuusho()) {
+                Text(":P")
+                    .font(.custom("SFMono-Regular", size: 80))
+                    .fontDesign(.monospaced)
+                    .kerning(-10)
+                    .offset(x: -10)
             }
+            .buttonStyle(.glass)
+            .buttonBorderShape(.roundedRectangle)
         }
         .padding()
     }
