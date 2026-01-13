@@ -63,6 +63,7 @@ struct NoFeedbackButtonStyle: ButtonStyle {
 }
 
 struct HayaiKuushoEntryView: View {
+    @Environment(\.widgetRenderingMode) var widgetRenderingMode
     var entry: KuushoEntry
     
     var body: some View {
@@ -80,6 +81,20 @@ struct HayaiKuushoEntryView: View {
         }
         .buttonStyle(NoFeedbackButtonStyle())
         .contentMargins(.zero)
+        .overlay(alignment: .bottom, content: {
+            if #available(macOS 14.0, iOS 17.0, *),
+//               widgetRenderingMode != .fullColor,
+               entry.isRecentlyCopied
+            {
+                ZStack {
+                    Text("\(Image(systemName: "checkmark")) Copied!")
+                        .font(.system(size: 12, weight: .bold, design: .monospaced))
+                        .foregroundStyle(.green)
+                }
+                .padding(12)
+                .transition(AnyTransition.opacity.animation(.easeIn))
+            }
+        })
     }
 }
 
