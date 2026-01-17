@@ -14,10 +14,14 @@ public let lastCopyKey = "lastCopyDate"
 public let faceKey = "face"
 public let copiedText = "\u{200E}"
 
-public let faces = ["W", "X", "P", "O", "C", "S", "V", "3", "L", ")", "(", "/", ">", "*"]
+public let faces = ["W", "P", "O", "V", "3", "L", ")", ">", "*"]
 
-public func selectRandomFace() -> String {
-    ":" + (faces.randomElement() ?? "P")
+public func selectRandomFace(includeD: Bool = false) -> String {
+    var tmpFaces = faces
+    if includeD {
+        tmpFaces.insert("D", at: 1)
+    }
+    return ":" + (tmpFaces.randomElement() ?? "P")
 }
 
 public extension UserDefaults {
