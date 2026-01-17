@@ -1,4 +1,4 @@
-<img src="./docs/assets/icon-256.png">
+<img src="./docs/assets/banner.png">
 
 # Kuusho for iOS/macOS
 
