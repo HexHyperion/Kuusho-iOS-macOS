@@ -25,12 +25,25 @@ struct FaceText: View {
 }
 
 struct FaceColumn: View {
+    @State private var offset: CGSize = .zero
     let areaSize: CGSize
+    
+    var animation: Animation {
+        Animation
+            .linear(duration: 2)
+            .repeatForever(autoreverses: false)
+    }
     
     var body: some View {
         VStack {
             ForEach(0..<Int(areaSize.height.rounded(.up) / calculateFaceDimensions().height) + 1, id: \.self) { num in
                 FaceText(text: selectRandomFace(includeD: true))
+            }
+        }
+        .offset(offset)
+        .onAppear() {
+            withAnimation(animation) {
+                self.offset.height += calculateFaceDimensions().height
             }
         }
     }
