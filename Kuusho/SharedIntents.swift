@@ -40,7 +40,7 @@ public struct CopyKuusho: AppIntent {
 
     public init() {}
 
-    public func perform() throws -> some IntentResult {
+    public func perform() -> some IntentResult {
         #if os(iOS)
         UIPasteboard.general.string = copiedText
         #elseif os(macOS)

@@ -24,6 +24,10 @@ struct KuushoApp: App {
             #endif
         }
         #if os(macOS)
+        .windowStyle(.hiddenTitleBar)
+        #endif
+        
+        #if os(macOS)
         Settings {
             SettingsView()
         }

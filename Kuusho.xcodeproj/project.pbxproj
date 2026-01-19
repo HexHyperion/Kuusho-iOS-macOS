@@ -48,6 +48,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				AppIcon.icon,
+				NoFeedbackButtonStyle.swift,
 				SharedIntents.swift,
 			);
 			target = ADB3518D2EF4B7960028E008 /* HayaiKuushoExtension */;

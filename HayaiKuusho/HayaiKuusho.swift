@@ -54,14 +54,6 @@ struct KuushoEntry: TimelineEntry {
     }
 }
 
-struct NoFeedbackButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .animation(nil, value: configuration.isPressed)
-            .opacity(1)
-    }
-}
-
 struct HayaiKuushoEntryView: View {
     var entry: KuushoEntry
     

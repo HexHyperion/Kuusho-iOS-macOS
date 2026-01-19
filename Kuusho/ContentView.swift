@@ -17,7 +17,7 @@ struct FaceText: View {
         Text(text)
             .font(.custom("SFMono-Regular", size: backgroundFaceSize))
             .fontDesign(.monospaced)
-            .foregroundStyle(.gray.opacity(0.5))
+            .foregroundStyle(.gray.opacity(0.2))
             .kerning(-2)
             .offset(x: -2, y: 0)
             .fixedSize()
@@ -68,22 +68,47 @@ struct FaceBackground: View {
 }
 
 struct ContentView: View {
+    @State private var tint = Color.primary
+    @State private var face = selectRandomFace()
+    
     var body: some View {
         GeometryReader { geometry in
             let areaSize = geometry.size
             ZStack {
                 FaceBackground(areaSize: areaSize)
-                
-                VStack {
-                    Button(intent: CopyKuusho()) {
-                        Text(":P")
-                            .font(.custom("SFMono-Regular", size: 80))
+
+                VStack(spacing: 0) {
+                    Text("Kūsho")
+                        .font(.custom("Bradley Hand", size: 80))
+                    
+                    Button(action: {
+                        withAnimation(nil) {
+                            _ = CopyKuusho().perform()
+                            self.tint = .green
+                            self.face = ":D"
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                self.tint = .primary
+                                self.face = selectRandomFace()
+                            }
+                        }
+                    }, label: {
+                        Text(self.face)
+                            .font(.custom("SFMono-Regular", size: 140))
                             .fontDesign(.monospaced)
                             .kerning(-10)
-                            .offset(x: -10)
-                    }
-                    .buttonStyle(.glassProminent)
+                            .offset(x: -12)
+                            .padding(12)
+                            .contentTransition(.identity)
+                    })
+                    .buttonStyle(.glass)
+                    #if os(macOS)
+                    .cornerRadius(40)
+                    .foregroundStyle(self.tint)
+                    #elseif os(iOS)
                     .buttonBorderShape(.roundedRectangle)
+                    .tint(self.tint)
+                    #endif
+                    .contentTransition(.identity)
                 }
             }
             .frame(minWidth: 400, minHeight: 350)
