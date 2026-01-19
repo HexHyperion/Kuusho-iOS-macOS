@@ -89,6 +89,7 @@ struct ContentView: View {
             .frame(minWidth: 400, minHeight: 350)
         }
         .frame(minWidth: 400, minHeight: 350)
+        .ignoresSafeArea()
     }
 }
 

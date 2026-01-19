@@ -9,7 +9,13 @@ import SwiftUI
 
 struct SettingsView: View {
     var body: some View {
-        Text("Hello, settings!")
+        ZStack {
+            VStack {
+                Text("Settings")
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+        .frame(minWidth: 400, minHeight: 350)
     }
 }
 
